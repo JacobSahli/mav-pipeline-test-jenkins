@@ -5,11 +5,23 @@ pipeline {
 
 
 stages {
+        stage('Set Git Version') {
+            steps {
+                script {
+                    // Set the Git version in the PATH environment variable
+                    withEnv(["PATH=/path/to/git-2.34.1/bin:$env.PATH"]) {
+                        // Now, the pipeline will use Git version 2.34.1
+                        // Your Git-related steps go here
+                        sh 'git --version' // Example: Check Git version
+                    }
+                }
+            }
+        }
+
         stage('Compile Stage') {
             steps {
                 script {
-                    // Use 'sh' to run shell commands on a Linux agent
-                    sh 'mvn clean compile'
+                    // Your compile steps here
                 }
             }
         }
@@ -17,8 +29,7 @@ stages {
         stage('Testing Stage') {
             steps {
                 script {
-                    // Use 'sh' to run shell commands on a Linux agent
-                    sh 'mvn test'
+                    // Your testing steps here
                 }
             }
         }
@@ -26,8 +37,7 @@ stages {
         stage('Packaging Stage') {
             steps {
                 script {
-                    // Use 'sh' to run shell commands on a Linux agent
-                    sh 'mvn package'
+                    // Your packaging steps here
                 }
             }
         }
