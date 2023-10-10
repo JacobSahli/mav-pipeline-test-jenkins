@@ -1,38 +1,44 @@
 pipeline {
-	agent any
-	
-	tools {
-		maven "Apache Maven 3.6.3"
-	}
-	stages {
-	   stage ('Compile Stage') {
+    agent any
 
-		steps {
-		   
-  		   withMaven(maven : 'Apache Maven 3.6.3') {
-			bat 'mvn clean compile'
-		    }
-		}
-	    }
+    tools {
+        // Specify the Maven tool installation (use 'Maven' on Linux agents)
+        maven "Maven"
+    }
 
-	    stage ('Testing stage') {
-		
-		steps {
+    stages {
+        stage('Compile Stage') {
+            steps {
+                // Use 'sh' to run shell commands on a Linux agent
+                withMaven(
+                    maven: 'Maven', // Use 'Maven' tool installation
+                    mavenLocalRepo: '.repository' // Optional local repository location
+                ) {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
 
-		   withMaven(maven : 'Apache Maven 3.6.3') {
-			bat 'mvn test'
-		   }
-		}
-	     }
+        stage('Testing Stage') {
+            steps {
+                withMaven(
+                    maven: 'Maven', // Use 'Maven' tool installation
+                    mavenLocalRepo: '.repository' // Optional local repository location
+                ) {
+                    sh 'mvn test'
+                }
+            }
+        }
 
-	     stage ('Packaging Stage') {
-
-		steps {
-
-		   withMaven(maven : 'Apache Maven 3.6.3') {
-			bat 'mvn package'
-		   }
-		}
-	      }
-	   }
+        stage('Packaging Stage') {
+            steps {
+                withMaven(
+                    maven: 'Maven', // Use 'Maven' tool installation
+                    mavenLocalRepo: '.repository' // Optional local repository location
+                ) {
+                    sh 'mvn package'
+                }
+            }
+        }
+    }
 }
