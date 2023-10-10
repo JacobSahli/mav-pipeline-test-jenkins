@@ -4,29 +4,32 @@ pipeline {
     }
 
 
-    stages {
+stages {
         stage('Compile Stage') {
             steps {
-                // Use 'sh' to run shell commands on a Linux agent
-
+                script {
+                    // Use 'sh' to run shell commands on a Linux agent
                     sh 'mvn clean compile'
-                
+                }
             }
         }
 
         stage('Testing Stage') {
             steps {
-
+                script {
+                    // Use 'sh' to run shell commands on a Linux agent
                     sh 'mvn test'
-
+                }
             }
         }
 
         stage('Packaging Stage') {
             steps {
-
+                script {
+                    // Use 'sh' to run shell commands on a Linux agent
                     sh 'mvn package'
-}
+                }
             }
         }
+    }
     }
